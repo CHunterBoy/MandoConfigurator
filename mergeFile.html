@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blend 5 JPEG Images with Darken Mode</title>
+</head>
+<body>
+    <h1>Blend 5 JPEG Images with Darken Mode</h1>
+
+    <!-- Canvas to display the blended image -->
+    <canvas id="canvas"></canvas>
+
+    <br>
+
+    <!-- Button to download the blended image -->
+    <button id="downloadButton" style="display: none;">Download Blended Image</button>
+
+    <script>
+        // Event listener for when both images are loaded and ready
+        const canvas = document.getElementById('canvas');        
+        const ctx = canvas.getContext('2d');
+        const downloadButton = document.getElementById('downloadButton');
+
+        // Create image elements for both local files
+        let image1 = new Image();
+        let image2 = new Image();
+        let image3 = new Image();
+        let image4 = new Image();
+        let image5 = new Image();
+
+        // Set the source paths for the local images
+        image1.src = 'cheekarch.jpg';  // Local file 1 (cheekarch.jpg)
+        image2.src = 'cheekindent.jpg'; // Local file 2 (cheekindent.jpg)
+        image3.src = 'faceplate.jpg'; // Local file 2 (faceplate.jpg)
+        image4.src = 'dome.jpg'; // Local file 2 (dome.jpg)
+        image5.src = 'fin.jpg'; // Local file 2 (fin.jpg)
+
+       
+        // Function to blend the images using the 'darken' blending mode
+        function blendImages() {
+            if (image1.complete && image2.complete  && image3.complete  && image4.complete  && image5.complete) {
+                // Set the canvas size to match the largest image dimensions
+                canvas.width = Math.max(image1.width, image2.width);
+                canvas.height = Math.max(image1.height, image2.height);
+
+                // Draw the first image onto the canvas
+                ctx.drawImage(image1, 0, 0);
+
+                // Set the blending mode to 'darken'
+                ctx.globalCompositeOperation = 'darken';
+
+                // Draw the second image onto the canvas
+                ctx.drawImage(image2, 0, 0);
+                ctx.drawImage(image3, 0, 0);
+                ctx.drawImage(image4, 0, 0);
+                ctx.drawImage(image5, 0, 0);
+
+                // Show the download button after the blend is complete
+                downloadButton.style.display = 'block';
+            }
+        }
+
+
+       
+
+       
+
+
+        image1.onload = blendImages;
+        image2.onload = blendImages;
+        image3.onload = blendImages;
+        image4.onload = blendImages;
+        image5.onload = blendImages;
+
+        // Function to download the blended image
+        downloadButton.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'blended_image.jpg'; // Name of the downloaded file
+            link.href = canvas.toDataURL('image/jpeg'); // Convert canvas to a data URL for JPEG
+            link.click();
+        });
+    </script>
+</body>
+</html>
